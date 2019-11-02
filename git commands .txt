@@ -1,0 +1,26 @@
+git innit
+   when you download the repository, gotta do a git innit to innitialize
+
+git add
+	when you want to create a new list of files to commit you add them with this command 
+	the files are stored in a buffer, waiting for a commit 
+
+
+git commit -m "message"
+	when your buffer is ready (all the files you want to add to this particular commit are added) you commit them with this command
+
+HEAD	this is the state of yout personnal machine 
+  Origin	this is the state of the git repo on the server
+master 	this is the main branch, you can create other if you want the project to go in another direction
+
+git push pushing means send to send to the website repository
+
+
+git pull
+	(pulling the updates from the website)
+
+git log
+	(tells you what has changed for every commit)
+
+git status 
+  to see the files that are on the repo, the tracked files etc
