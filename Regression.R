@@ -1,17 +1,30 @@
 #CREATING DUMMY VARIABLE
+install.packages("vip") 
+library(dplyr)     # for data wrangling
+library(ggplot2)   # for awesome plotting
+library(rsample)   # for data splitting
+library(caret)     # for logistic regression modeling
+library(vip)       # variable importance
 
-dummy<-dplyr::pull(congress_wordscore,var = "party_affiliation")
-dummy<-as.numeric(party_affiliation == "R")
-print(dummy)
-congress_wordscore$dummy<-c(dummy)
+# using our files congress_wordscore
+
+party_affiliation<-dplyr::pull(congress_wordscore,var = "party_affiliation")
+party_affiliation<-as.numeric(party_affiliation == "R")
+print(party_affiliation)
+congress_wordscore$party_affiliation<-c(party_affiliation)
 View(congress_wordscore)
+
 
 #REGRESSION
 
-linear_dem<-lm(dummy~congress_wordscore$democrat,data=congress_wordscore)
-summary(linear_dem)
-linear_rep<-lm(dummy~congress_wordscore$republican,data=congress_wordscore)
-summary(linear_rep)
+
+(linear_joint <- lm(party_affiliation ~ democrat + republican, data=congress_wordscore))
+NA
+
+summary(linear_joint)coefficients[1:1]
+summary(linear_joint)$adj.r.squared
+summary((linear_joint)$
+
 
 
 
