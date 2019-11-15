@@ -53,7 +53,7 @@ republican_dictionary<-dictionary(list(republican =  c("united","academy","illin
                                                        "young","christian","boy","veterans",
                                                        "baptist","coach","life")))
 
-#APPLICATION OF DICTIONARIES
+#APPLICATION OF DICTIONARIES 
 
 congress_dfm_democrat<-dfm_lookup(congress_dfm,democrat_dictionary, valuetype = "fixed")
 docvars(congress_dfm_democrat)

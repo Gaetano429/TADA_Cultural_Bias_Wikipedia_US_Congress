@@ -78,7 +78,7 @@ df_congress <- map_df(urls, function(x){
                paste0(collapse = "") %>% #collapse the paragraphs
                gsub("\\[\\d{1,3}\\]", "", .) %>% #remove the footnote numbers
                gsub('\n', '', .) %>% #remove "\n" tags
-               gsub('\"', '', .) #remove '\"' tags
+               gsub('\"', '', .) #remove '\"' tags 
   )
 })
 warning()
