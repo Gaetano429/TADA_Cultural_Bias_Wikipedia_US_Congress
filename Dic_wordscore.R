@@ -25,6 +25,7 @@ docvars(congress_df_tok)
 congress_dfm<-dfm(congress_df_tok)
 docvars(congress_dfm)
 
+
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
 democrat_dictionary<-dictionary(list(democrat = c("government", "psychology", "cornell", "michigan", "american", 
@@ -52,25 +53,16 @@ republican_dictionary<-dictionary(list(republican =  c("united","academy","illin
                                                        "young","christian","boy","veterans",
                                                        "baptist","coach","life")))
 
-
-
 #APPLICATION OF DICTIONARIES
 
 congress_dfm_democrat<-dfm_lookup(congress_dfm,democrat_dictionary, valuetype = "fixed")
 docvars(congress_dfm_democrat)
-View(congress_dfm_democrat)
-congress_dfm_democrat$party_affiliation<-c(usa_congress_df$party) # try assigning here
 
 congress_dfm_republican<-dfm_lookup(congress_dfm,republican_dictionary,valuetype = "fixed")
 docvars(congress_dfm_republican)
-View(congress_dfm_republican)
-congress_dfm_republican$party_affiliation<-c(usa_congress_df$party) # try assigning here
+
 
 congress_wordscore<-merge(congress_dfm_democrat,congress_dfm_republican, all.x=FALSE)
-# or try merge by x (with x being "document"?)
-#congress_wordscore <- dfm_group(congress_dfm_democrat, congress_dfm_republican, groups = "party")
-#ndoc(congress_wordscore)
-
-# as.data.frame.dfm is obsolete. integrate  'convert(x, to = "data.frame") 
+#reassigning party 
 congress_wordscore$party_affiliation<-c(usa_congress_df$party)
 View(congress_wordscore)
