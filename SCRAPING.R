@@ -14,29 +14,39 @@ library(rvest)
 
 #MYCODE
 #USA SENATE
+
+
 usa_senate_df_dem <- dplyr::semi_join(x = get_core(legislature = "usa_senate"),
                                       y = dplyr::filter(get_political(legislature = "usa_senate"), party=="D",
                                                         session == 116),
                                       by = "pageid")
 
-usa_senate_df_dem$party<-c("D")
-
-
 usa_senate_df_rep <- dplyr::semi_join(x = get_core(legislature = "usa_senate"),
-                                      y = dplyr::filter(get_political(legislature = "usa_senate"), party=="R",
+                                      y = dplyr::filter(get_political(legislature = "usa_senate"), party=="R", 
                                                         session == 116),
                                       by = "pageid")
 
+usa_senate_df_dem$party<-c("D")        
 usa_senate_df_rep$party<-c("R")
 
 usa_senate_df<-dplyr::bind_rows(usa_senate_df_dem,usa_senate_df_rep)
+usa_senate_df<- dplyr::left_join(x = usa_senate_df,
+                                 y = get_history(legislature = "usa_senate"), session == 116,
+                                 by = "pageid")
+
+write.xlsx(data,"C:/Users/FGM/Dropbox/00 MPP Hertie School/03 Third Semester/02 Text as Data/length.xlsx")
+install.packages("xlsx")
+library(xlsx)
+write.xlsx(usa_senate_df,"C:/Users/gaeta/Documents/R/senator.xlsx")
+
+
 
 #USA HOUSE
 usa_house_df_dem <- dplyr::semi_join(x = get_core(legislature = "usa_house"),
                                      y = dplyr::filter(get_political(legislature = "usa_house"), party=="D",
                                                        session == 116),
                                      by = "pageid")
-usa_house_df_dem$party<-c("D")
+
 
 
 usa_house_df_rep <- dplyr::semi_join(x = get_core(legislature = "usa_house"),
@@ -44,9 +54,13 @@ usa_house_df_rep <- dplyr::semi_join(x = get_core(legislature = "usa_house"),
                                                        session == 116),
                                      by = "pageid")
 
+usa_house_df_dem$party<-c("D")
 usa_house_df_rep$party<-c("R")
 
 usa_house_df<-dplyr::bind_rows(usa_house_df_dem,usa_house_df_rep)
+usa_house_df<- dplyr::left_join(x = usa_house_df,
+                                 y = get_history(legislature = "usa_house"), session == 116,
+                                 by = "pageid")
 
 #CREATION OF CONGRESS DATA FRAME(S)
 usa_congress_df<-merge(usa_house_df,usa_senate_df, all.x = TRUE, all.y = TRUE)
@@ -88,10 +102,3 @@ warnings(50)
 df_congress$Party<-c(usa_congress_df$party)
 df_congress$pageID<-c(usa_congress_df$pageid)
 View(df_congress)
-
-#CREATING CORPUS
-library(quanteda)
-df_congress_corpus<-corpus(df_congress, text_field = "Biography","Politician")
-df_congress_corpus
-docvars(df_congress_corpus)
-head(docvars(df_congress_corpus))
