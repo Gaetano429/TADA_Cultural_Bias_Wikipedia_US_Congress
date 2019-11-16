@@ -20,6 +20,7 @@ train_tok <- tokens_select(train_tok, pattern = stopwords('en'), selection = 're
 train_tok <- tokens_tolower(train_tok)
 train_tok <- tokens(train_tok, ngrams = c(1:1), include_docvars = TRUE) 
 train_tok
+View(train_tok)
 train_dfm<-dfm(train_tok)
 docvars(train_dfm)
 
@@ -70,10 +71,19 @@ train_wordscore$party_affiliation<-c(party_affiliation)
 View(train_wordscore)
 
 #predicted party
+library(dplyr)
 train_wordscore<- train_wordscore %>%
   mutate(predicted_party = if_else(democrat >= republican, '1', '0'))
 
 typeof(train_wordscore$party_affiliation)
 typeof(train_wordscore$predicted_party)
 train_wordscore$predicted_party<-as.numeric(train_wordscore$predicted_party)
+View(train_wordscore)
 
+#Adding sex
+train_wordscore$sex<-c(train$Sex)
+
+#Adding length
+train_wordscore$length<-c(congress_length$Lenght)
+
+View(train_wordscore)
