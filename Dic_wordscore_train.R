@@ -21,6 +21,7 @@ train_tok <- tokens_tolower(train_tok)
 train_tok <- tokens(train_tok, ngrams = c(1:1), include_docvars = TRUE) 
 train_tok
 train_dfm<-dfm(train_tok)
+docvars(train_dfm)
 
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
