@@ -53,7 +53,6 @@ usa_congress_df<-merge(usa_house_df,usa_senate_df, all.x = TRUE, all.y = TRUE)
 #ordering data alphabetically to make sure the party affiliation will be correctly assigned later on
 usa_congress_df <- with(usa_congress_df,  usa_congress_df[order(wikititle) , ])
 
-
 #OBTAINING URLS
 congress_url <- paste0("https://en.wikipedia.org/wiki/",usa_congress_df$wikititle)
 urls<-c(congress_url)
@@ -81,10 +80,18 @@ df_congress <- map_df(urls, function(x){
                gsub('\"', '', .) #remove '\"' tags 
   )
 })
-warning()
+warnings(50)
 
 
 
 #ADDING PARTY
 df_congress$Party<-c(usa_congress_df$party)
+df_congress$pageID<-c(usa_congress_df$pageid)
 View(df_congress)
+
+#CREATING CORPUS
+library(quanteda)
+df_congress_corpus<-corpus(df_congress, text_field = "Biography","Politician")
+df_congress_corpus
+docvars(df_congress_corpus)
+head(docvars(df_congress_corpus))
