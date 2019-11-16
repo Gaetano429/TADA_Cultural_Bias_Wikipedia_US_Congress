@@ -72,4 +72,7 @@ View(train_wordscore)
 train_wordscore<- train_wordscore %>%
   mutate(predicted_party = if_else(democrat >= republican, '1', '0'))
 
-View(train_wordscore)
+typeof(train_wordscore$party_affiliation)
+typeof(train_wordscore$predicted_party)
+train_wordscore$predicted_party<-as.numeric(train_wordscore$predicted_party)
+
