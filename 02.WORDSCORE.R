@@ -69,10 +69,6 @@ congress_democrat<-dfm_lookup(congress_dfm,democrat_dictionary, valuetype = "fix
 congress_republican<-dfm_lookup(congress_dfm,republican_dictionary,valuetype = "fixed")
 
 congress_wordscore<-merge(congress_democrat,congress_republican, all.x=FALSE)
-View(congress_wordscore)
-
-
-
 
 #ADDING PARTY
 congress_wordscore$party_affiliation<-c(usa_congress_df$party)
