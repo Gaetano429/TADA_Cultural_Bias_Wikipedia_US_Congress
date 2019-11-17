@@ -80,7 +80,7 @@ congress_wordscore$party_affiliation<-c(party_affiliation)
 #ADDING DICTIONARY PARTY
 #dictionary party - labelling of party depending on wordscore majority
 congress_wordscore<- congress_wordscore %>%
-  mutate(dictionary_party = if_else(democrat >= republican, '1', '0'))
+  mutate(dictionary_party = if_else(democrat_score >= republican_score, '1', '0'))
 
 congress_wordscore$dictionary_party<-as.numeric(congress_wordscore$dictionary_party)
 
