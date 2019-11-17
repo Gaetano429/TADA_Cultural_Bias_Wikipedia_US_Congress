@@ -14,8 +14,11 @@ summary(model3)
 model4<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size,data = train_set)
 summary(model4)
 
-model5<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length,data = train_set)
+model5<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length+p,data = train_set)
 summary(model5)
+
+model6<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length,data = train_set)
+summary(model6)
 
 fit = glm(party_affiliation~predicted_party,data = train_wordscore, family=binomial)
 newdat <- data.frame(predicted_party=seq(min(train_wordscore$predicted_party), max(train_wordscore$predicted_party),len=100))
