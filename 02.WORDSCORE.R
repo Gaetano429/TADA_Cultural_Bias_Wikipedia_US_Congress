@@ -46,6 +46,7 @@ democrat_dictionary<-dictionary(list(democrat_score = c("government", "psycholog
                                                   "brethren","christianity","chair","church",
                                                   "commerce","coalition","education","organization",
                                                   "law","executive","Trustees","institute","union","alumni","development","women" )))
+# first dictionary with 52 words
 republican_dictionary<-dictionary(list(republican_score =  c("united","academy","illinois","high",
                                                        "technology","pennsylvania","virginia",
                                                        "finance","georgia","vice","office",
@@ -61,6 +62,31 @@ republican_dictionary<-dictionary(list(republican_score =  c("united","academy",
                                                        "rifle","rotary","scouts",
                                                        "young","christian","boy","veterans",
                                                        "baptist","coach","life")))
+#first rep dicionary with 53 words
+
+#second dictionary for democrats with 50 words
+democrat_dictionary2<-dictionary(list(democrat_score2 = c("university","attorney","college","school","director",
+                                                          "state","law","science","professor","department",
+                                                          "assistant","teacher","international","county",
+                                                          "office","harvard","education","phd","staff","private",
+                                                          "public","master","psychology","mpa","yale","georgetown",
+                                                          "community","center","average","health","senior","board",
+                                                          "association","present","women","bar","community",
+                                                          "volunteer","alumni","development","institute",
+                                                          "new","catholic","roman","jewish","muslim",
+                                                          "advisory","city","adjunct")))
+
+#second dictionary for republicans with 50 words
+republican_dictionary2<-dictionary(list(republican_score2 =  c("united", "states","present","president",
+                                                               "owner","company","army","manager","business",
+                                                               "officer","incorporated","air","force","vice",
+                                                               "chief","served","small","technology","liability",
+                                                               "limited","medical","virginia","mba","author",
+                                                               "san","finance","christian","baptist","presbyterian",
+                                                               "protestant","jesus","follower","member","former",
+                                                               "church","rifle","rotary","boy","veterans","chamber",
+                                                               "commerce","foundation","coach","georgia","north",
+                                                               "security","great","life")))
 
 #APPLICATION OF DICTIONARIES 
 
