@@ -14,11 +14,14 @@ summary(model3)
 model4<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size,data = train_set)
 summary(model4)
 
-model5<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length+p,data = train_set)
+model5<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length,data = train_set)
 summary(model5)
 
-model6<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length,data = train_set)
+model6<-glm(party_affiliation~dictionary_party+total_editors+total_size+Sex+length,data = train_set)
 summary(model6)
+
+model7<-glm(party_affiliation~dictionary_party,data = train_set)
+summary(model7)
 
 fit = glm(party_affiliation~predicted_party,data = train_wordscore, family=binomial)
 newdat <- data.frame(predicted_party=seq(min(train_wordscore$predicted_party), max(train_wordscore$predicted_party),len=100))
@@ -33,12 +36,12 @@ summary(logreg_control)
 
 contrasts(train_wordscore$sex)
 
-fit = glm(party_affiliation~predicted_party+sex,data = train_wordscore, family=binomial)
+fit = glm(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set, family=binomial)
 newdat <- data.frame(predicted_party=seq(min(train_wordscore$predicted_party), sex=seq(min(train_wordscore$sex),max(train_wordscore$predicted_party),len=100)))
 newdat$party_affiliation = predict(fit, newdata=newdat, type="response")
 newdat2<-data.frame(sex=sez(min(train_wordscore$sex),max(train_wordscore$sex),len=100))
 newdat2$sex=predict(fit,newdata = newdat2,type="response")
-plot(party_affiliation~predicted_party+sex,data = train_wordscore, col="red4")
+plot(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set,data = train_wordscore, col="red4")
 lines(party_affiliation~predicted_party, newdat, col="green4", lwd=2)
 
 #Linear regression
