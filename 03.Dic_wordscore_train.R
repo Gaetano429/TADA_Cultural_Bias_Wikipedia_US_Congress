@@ -1,12 +1,11 @@
 #CORPUS
 library(quanteda)
-train_corpus<-corpus(train, text_field = "Biography","Politician")
-train_corpus
-docvars(train_corpus)
+corpus<-corpus(df_congress, text_field = "Biography","Politician")
+corpus
 
 #CREATING DATAFRAME
 
-train_tok<-tokens(train_corpus, what="word",
+congress_tok<-tokens(corpus, what="word",
                         remove_punct = TRUE,
                         remove_symbols = TRUE,
                         remove_numbers = TRUE,
@@ -16,12 +15,10 @@ train_tok<-tokens(train_corpus, what="word",
                         verbose = TRUE, 
                         include_docvars = TRUE)
 
-train_tok <- tokens_select(train_tok, pattern = stopwords('en'), selection = 'remove')
-train_tok <- tokens_tolower(train_tok)
-train_tok <- tokens(train_tok, ngrams = c(1:1), include_docvars = TRUE) 
-train_tok
-train_dfm<-dfm(train_tok)
-docvars(train_dfm)
+congress_tok <- tokens_select(congress_tok, pattern = stopwords('en'), selection = 'remove')
+congress_tok <- tokens_tolower(congress_tok)
+congress_tok <- tokens(congress_tok, ngrams = c(1:1), include_docvars = TRUE) 
+congress_dfm<-dfm(congress_tok)
 
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
@@ -32,48 +29,69 @@ democrat_dictionary<-dictionary(list(democrat = c("government", "psychology", "c
                                                   "african", "disciples", "community", "hindu", "humanist", "muslim", "none", 
                                                   "ucc", "agnostic", "applewood","atheist","believe","beth",
                                                   "brethren","christianity","chair","church",
-                                                  "commerce","coalition","democratic","education","organization",
+                                                  "commerce","coalition","education","organization",
                                                   "law","executive","Trustees","institute","union","alumni","development","women" )))
 republican_dictionary<-dictionary(list(republican =  c("united","academy","illinois","high",
                                                        "technology","pennsylvania","virginia",
-                                                       "finance","georgia","vice","vice","office",
+                                                       "finance","georgia","vice","office",
                                                        "force","limited","served","medical","corps",
                                                        "liability","navy","group","author",
                                                        "small","presbyterian","assembly",
                                                        "nazarene","reformed","saint","scientist",
                                                        "follower","lds","pentecostal",
-                                                       "amercian","assemblies",
+                                                       "american","assemblies",
                                                        "cottonwood","east","eastern",
                                                        "eclectic","elca","father","first",
                                                        "foursquare","free","american","commerce", 
-                                                       "republican","rifle","rotary","scouts",
+                                                       "rifle","rotary","scouts",
                                                        "young","christian","boy","veterans",
                                                        "baptist","coach","life")))
 
 #APPLICATION OF DICTIONARIES 
 
-train_democrat<-dfm_lookup(train_dfm,democrat_dictionary, valuetype = "fixed")
+congress_democrat<-dfm_lookup(congress_dfm,democrat_dictionary, valuetype = "fixed")
 
-train_republican<-dfm_lookup(train_dfm,republican_dictionary,valuetype = "fixed")
+congress_republican<-dfm_lookup(congress_dfm,republican_dictionary,valuetype = "fixed")
 
-train_wordscore<-merge(train_democrat,train_republican, all.x=FALSE)
-View(train_wordscore)
+congress_wordscore<-merge(congress_democrat,congress_republican, all.x=FALSE)
+View(congress_wordscore)
 
-#reassigning party 
-train_wordscore$party_affiliation<-c(train$Party)
-View(train_wordscore)
 
-party_affiliation<-dplyr::pull(train_wordscore,var = "party_affiliation")
+
+
+#ADDING PARTY
+congress_wordscore$party_affiliation<-c(usa_congress_df$party)
+
+party_affiliation<-dplyr::pull(congress_wordscore,var = "party_affiliation")
 party_affiliation<-as.numeric(party_affiliation == "D")
-print(party_affiliation)
-train_wordscore$party_affiliation<-c(party_affiliation)
-View(train_wordscore)
+congress_wordscore$party_affiliation<-c(party_affiliation)
 
-#predicted party
-train_wordscore<- train_wordscore %>%
-  mutate(predicted_party = if_else(democrat >= republican, '1', '0'))
+#ADDING DICTIONARY PARTY
+#dictionary party - labelling of party depending on wordscore majority
+congress_wordscore<- congress_wordscore %>%
+  mutate(dictionary_party = if_else(democrat >= republican, '1', '0'))
 
-typeof(train_wordscore$party_affiliation)
-typeof(train_wordscore$predicted_party)
-train_wordscore$predicted_party<-as.numeric(train_wordscore$predicted_party)
+congress_wordscore$dictionary_party<-as.numeric(congress_wordscore$dictionary_party)
+
+#ADDING PAGEID
+congress_wordscore$pageID<-c(usa_congress_df$pageid)
+
+#ADDING SEX
+congress_wordscore$Sex<-c(usa_congress_df$sex)
+
+#ADDING TOTAL EDITORS
+congress_wordscore$total_editors<-c(usa_congress_df$total_editors)
+
+#ADDING TOTAL SIZE
+congress_wordscore$total_size<-c(usa_congress_df$total_size)
+
+#ADDING ETHNICITY
+congress_wordscore$ethnicity<-c(usa_congress_df$ethnicity)
+
+#ADDING RELIGION
+congress_wordscore$religion<-c(usa_congress_df$religion)
+
+View(congress_wordscore)
+
+
 
