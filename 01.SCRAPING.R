@@ -30,15 +30,18 @@ usa_senate_df_dem$party<-c("D")
 usa_senate_df_rep$party<-c("R")
 
 usa_senate_df<-dplyr::bind_rows(usa_senate_df_dem,usa_senate_df_rep)
-usa_senate_df<- dplyr::left_join(x = usa_senate_df,
-                                 y = get_history(legislature = "usa_senate"), session == 116,
-                                 by = "pageid")
 
-write.xlsx(data,"C:/Users/FGM/Dropbox/00 MPP Hertie School/03 Third Semester/02 Text as Data/length.xlsx")
-install.packages("xlsx")
-library(xlsx)
-write.xlsx(usa_senate_df,"C:/Users/gaeta/Documents/R/senator.xlsx")
 
+# get senate history
+# usa_senate_df<- dplyr::left_join(x = usa_senate_df,
+                                 #y = get_history(legislature = "usa_senate"), session == 116,
+                                 #by = "pageid")
+#data coerced in xcl
+library(readxl)
+senate_history <- read_excel("senate_history.xlsx")
+usa_senate_df<-dplyr::left_join(x = usa_senate_df,
+                                y = senate_history,
+                                by = "pageid")
 
 
 #USA HOUSE
@@ -58,14 +61,25 @@ usa_house_df_dem$party<-c("D")
 usa_house_df_rep$party<-c("R")
 
 usa_house_df<-dplyr::bind_rows(usa_house_df_dem,usa_house_df_rep)
-usa_house_df<- dplyr::left_join(x = usa_house_df,
-                                 y = get_history(legislature = "usa_house"), session == 116,
-                                 by = "pageid")
+
+
+#get house history
+#usa_house_df<- dplyr::left_join(x = usa_house_df,
+                                 #y = get_history(legislature = "usa_house"), session == 116,
+                                 #by = "pageid")
+
+
+#data then coerced in xcl
+library(readxl)
+house_history <- read_excel("house_history.xlsx")
+usa_house_df<-dplyr::left_join(x = usa_house_df,
+                                y = house_history,
+                                by = "pageid")
 
 #CREATION OF CONGRESS DATA FRAME(S)
 usa_congress_df<-merge(usa_house_df,usa_senate_df, all.x = TRUE, all.y = TRUE)
 #ordering data alphabetically to make sure the party affiliation will be correctly assigned later on
-usa_congress_df <- with(usa_congress_df,  usa_congress_df[order(wikititle) , ])
+usa_congress_df <- with(usa_congress_df,  usa_congress_df[order(name),])
 
 #OBTAINING URLS
 congress_url <- paste0("https://en.wikipedia.org/wiki/",usa_congress_df$wikititle)
@@ -96,9 +110,19 @@ df_congress <- map_df(urls, function(x){
 })
 warnings(50)
 
-
-
 #ADDING PARTY
 df_congress$Party<-c(usa_congress_df$party)
+#adding PAGEID
 df_congress$pageID<-c(usa_congress_df$pageid)
+#ADDING SEX
+df_congress$Sex<-c(usa_congress_df$sex)
+#ADDING TOTAL EDITORS
+df_congress$total_editors<-c(usa_congress_df$total_editors)
+#ADDING TOTAL SIZE
+df_congress$total_size<-c(usa_congress_df$total_size)
+#ADDING ETHNICITY
+df_congress$ethnicity<-c(usa_congress_df$ethnicity)
+#ADDING RELIGION
+df_congress$religion<-c(usa_congress_df$religion)
+
 View(df_congress)
