@@ -23,10 +23,10 @@ congress_tok <- tokens(congress_tok, ngrams = c(1:1), include_docvars = TRUE)
 congress_dfm<-dfm(congress_tok)
 
 #GET LENGTH THROUGH XCL
-library(csv)
-my.summary<- summary(congress_tok)
-length_df<-data.frame(ids=length(my.summary), length=my.summary)
-write.csv(length_df, "C:/Users/gaeta/TADA_Cultural_Bias_Wikipedia_US_Congress/length.csv",row.names = FALSE)
+#library(csv)
+#my.summary<- summary(congress_tok)
+#length_df<-data.frame(ids=length(my.summary), length=my.summary)
+#write.csv(length_df, "C:/Users/gaeta/TADA_Cultural_Bias_Wikipedia_US_Congress/length.csv",row.names = FALSE)
 
 library(readxl)
 length <- read_excel("length.xlsx")
@@ -37,7 +37,7 @@ df_congress<-dplyr::left_join(x = df_congress,
 
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
-democrat_dictionary<-dictionary(list(democrat = c("government", "psychology", "cornell", "michigan", "american", 
+democrat_dictionary<-dictionary(list(democrat_score = c("government", "psychology", "cornell", "michigan", "american", 
                                                   "georgetown", "yale", "bucknell", "missouri", "mpa", "practice", 
                                                   "private", "center", "community", "health", "development", "adjunct", 
                                                   "court", "services", "high", "senior", "unitarian", "universalist", 
@@ -46,7 +46,7 @@ democrat_dictionary<-dictionary(list(democrat = c("government", "psychology", "c
                                                   "brethren","christianity","chair","church",
                                                   "commerce","coalition","education","organization",
                                                   "law","executive","Trustees","institute","union","alumni","development","women" )))
-republican_dictionary<-dictionary(list(republican =  c("united","academy","illinois","high",
+republican_dictionary<-dictionary(list(republican_score =  c("united","academy","illinois","high",
                                                        "technology","pennsylvania","virginia",
                                                        "finance","georgia","vice","office",
                                                        "force","limited","served","medical","corps",
@@ -106,6 +106,12 @@ congress_wordscore$ethnicity<-c(usa_congress_df$ethnicity)
 #ADDING RELIGION
 congress_wordscore$religion<-c(usa_congress_df$religion)
 
+#ADDING LENGTH
+congress_wordscore$length<-c(df_congress$length)
+
+#NORMALISING WORDSCORES BY LENGTH
+congress_wordscore$normalised_democrat_score<-c(congress_wordscore$democrat/congress_wordscore$length)
+congress_wordscore$normalised_republican_score<-c(congress_wordscore$republican/congress_wordscore$length)
 View(congress_wordscore)
 
 
