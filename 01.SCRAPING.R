@@ -12,8 +12,7 @@ library(WikidataR)
 library(legislatoR)
 library(rvest)
 
-#MYCODE
-#USA SENATE
+#SENATE
 
 
 usa_senate_df_dem <- dplyr::semi_join(x = get_core(legislature = "usa_senate"),
@@ -36,6 +35,8 @@ usa_senate_df<-dplyr::bind_rows(usa_senate_df_dem,usa_senate_df_rep)
 # usa_senate_df<- dplyr::left_join(x = usa_senate_df,
                                  #y = get_history(legislature = "usa_senate"), session == 116,
                                  #by = "pageid")
+#Using excel the size of the correction and editors are binded to politician
+
 #data coerced in xcl
 library(readxl)
 senate_history <- read_excel("senate_history.xlsx")
@@ -68,6 +69,7 @@ usa_house_df<-dplyr::bind_rows(usa_house_df_dem,usa_house_df_rep)
                                  #y = get_history(legislature = "usa_house"), session == 116,
                                  #by = "pageid")
 
+#Using excel the size of the correction and editors are binded to politician
 
 #data then coerced in xcl
 library(readxl)
