@@ -1,8 +1,21 @@
-#Logistical regression 
-train_wordscore$party_affiliation<-as.numeric(train_wordscore$party_affiliation)
+#Logistical regression normalised wordscores
 
-logreg<-glm(party_affiliation~predicted_party,data = train_wordscore)
-summary(logreg)
+model1<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set)
+summary(model1)
+
+#logistical regression control variables
+
+model2<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+Sex,data = train_set)
+summary(model2)
+
+model3<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+length,data = train_set)
+summary(model3)
+
+model4<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size,data = train_set)
+summary(model4)
+
+model5<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length,data = train_set)
+summary(model5)
 
 fit = glm(party_affiliation~predicted_party,data = train_wordscore, family=binomial)
 newdat <- data.frame(predicted_party=seq(min(train_wordscore$predicted_party), max(train_wordscore$predicted_party),len=100))
