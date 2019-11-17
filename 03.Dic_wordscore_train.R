@@ -1,5 +1,7 @@
 #CORPUS
+library(csv)
 library(quanteda)
+library(readxl)
 corpus<-corpus(df_congress, text_field = "Biography","Politician")
 corpus
 
@@ -19,6 +21,19 @@ congress_tok <- tokens_select(congress_tok, pattern = stopwords('en'), selection
 congress_tok <- tokens_tolower(congress_tok)
 congress_tok <- tokens(congress_tok, ngrams = c(1:1), include_docvars = TRUE) 
 congress_dfm<-dfm(congress_tok)
+
+#GET LENGTH THROUGH XCL
+library(csv)
+my.summary<- summary(congress_tok)
+length_df<-data.frame(ids=length(my.summary), length=my.summary)
+write.csv(length_df, "C:/Users/gaeta/TADA_Cultural_Bias_Wikipedia_US_Congress/length.csv",row.names = FALSE)
+
+library(readxl)
+length <- read_excel("length.xlsx")
+View(length)
+df_congress<-dplyr::left_join(x = df_congress,
+                               y = length,
+                               by = "Politician")
 
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
