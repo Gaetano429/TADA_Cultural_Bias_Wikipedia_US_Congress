@@ -1,3 +1,4 @@
+#MODEL 1
 #DIVIDING DATA IN TRAINING AND TEST SET
 
 congress_wordscore$id <- 1:nrow(congress_wordscore)
@@ -7,4 +8,18 @@ test_set  <- dplyr::anti_join(congress_wordscore, train_set, by = 'id')
 #ORDERING DATA ALPHABETICALLY
 train_set <- with(train_set,train_set[order(document),])
 test_set <- with(test_set,test_set[order(document),])
- 
+
+write_csv(train_set,"/Users/ulyssedemonio/Desktop/train_set.csv")
+write_csv(test_set,"/Users/ulyssedemonio/Desktop/test_set.csv")
+
+#MODEL 2
+#DIVIDING DATA IN TRAINING AND TEST SET
+
+congress_wordscore2$id <- 1:nrow(congress_wordscore2)
+train_set <- congress_wordscore2 %>% dplyr::sample_frac(.75)
+test_set  <- dplyr::anti_join(congress_wordscore2, train_set, by = 'id')
+
+#ORDERING DATA ALPHABETICALLY
+train_set <- with(train_set,train_set[order(document),])
+test_set <- with(test_set,test_set[order(document),])
+View(train_set)
