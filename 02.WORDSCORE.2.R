@@ -1,41 +1,5 @@
-#CORPUS
-library(csv)
-library(quanteda)
-library(readxl)
-corpus<-corpus(df_congress, text_field = "Biography","Politician")
-corpus
+#CREATING SECOND DICTIONARY FROM GOGGIN READING
 
-#CREATING DATAFRAME
-
-congress_tok<-tokens(corpus, what="word",
-                        remove_punct = TRUE,
-                        remove_symbols = TRUE,
-                        remove_numbers = TRUE,
-                        remove_twitter = TRUE,
-                        remove_url = TRUE,
-                        remove_hyphens = FALSE,
-                        verbose = TRUE, 
-                        include_docvars = TRUE)
-
-congress_tok <- tokens_select(congress_tok, pattern = stopwords('en'), selection = 'remove')
-congress_tok <- tokens_tolower(congress_tok)
-congress_tok <- tokens(congress_tok, ngrams = c(1:1), include_docvars = TRUE) 
-congress_dfm<-dfm(congress_tok)
-
-#GET LENGTH (OF TOKENS) THROUGH XCL
-#library(csv)
-#my.summary<- summary(congress_tok)
-#length_df<-data.frame(ids=length(my.summary), length=my.summary)
-#write.csv(length_df, "C:/Users/gaeta/TADA_Cultural_Bias_Wikipedia_US_Congress/length.csv",row.names = FALSE)
-
-
-length <- read_excel("length.xlsx")
-
-df_congress<-dplyr::left_join(x = df_congress,
-                               y = length,
-                               by = "Politician")
-
-#CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
 #second dictionary for democrats with 50 words
 democrat_dictionary2<-dictionary(list(democrat_score2 = c("university","attorney","college","school","director",
