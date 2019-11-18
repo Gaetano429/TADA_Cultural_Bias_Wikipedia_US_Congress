@@ -22,19 +22,20 @@ congress_tok <- tokens_tolower(congress_tok)
 congress_tok <- tokens(congress_tok, ngrams = c(1:1), include_docvars = TRUE) 
 congress_dfm<-dfm(congress_tok)
 
-#GET LENGTH THROUGH XCL
+#GET LENGTH (OF TOKENS) THROUGH XCL
 #library(csv)
 #my.summary<- summary(congress_tok)
 #length_df<-data.frame(ids=length(my.summary), length=my.summary)
 #write.csv(length_df, "C:/Users/gaeta/TADA_Cultural_Bias_Wikipedia_US_Congress/length.csv",row.names = FALSE)
 
-library(readxl)
+
 length <- read_excel("length.xlsx")
 View(length)
+
 df_congress<-dplyr::left_join(x = df_congress,
                                y = length,
                                by = "Politician")
-
+View(df_congress)
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
 democrat_dictionary<-dictionary(list(democrat_score = c("government", "psychology", "cornell", "michigan", "american", 
@@ -91,11 +92,20 @@ republican_dictionary2<-dictionary(list(republican_score2 =  c("united", "states
 #APPLICATION OF DICTIONARIES 
 
 congress_democrat<-dfm_lookup(congress_dfm,democrat_dictionary, valuetype = "fixed")
-
 congress_republican<-dfm_lookup(congress_dfm,republican_dictionary,valuetype = "fixed")
+#OR
+congress_democrat2<-dfm_lookup(congress_dfm,democrat_dictionary2, valuetype = "fixed")
+congress_republican2<-dfm_lookup(congress_dfm,republican_dictionary2,valuetype = "fixed")
+
 
 congress_wordscore<-merge(congress_democrat,congress_republican, all.x=FALSE)
+#OR
+congress_wordscore<-merge(congress_democrat2,congress_republican2, all.x=FALSE)
 
+
+#ordering data alphabetically to make sure the party affiliation will be correctly assigned later on
+congress_wordscore <- with(congress_wordscore,  congress_wordscore[order(document),])
+View(congress_wordscore)
 #ADDING PARTY
 congress_wordscore$party_affiliation<-c(usa_congress_df$party)
 
@@ -106,7 +116,7 @@ congress_wordscore$party_affiliation<-c(party_affiliation)
 #ADDING DICTIONARY PARTY
 #dictionary party - labelling of party depending on wordscore majority
 congress_wordscore<- congress_wordscore %>%
-  mutate(dictionary_party = if_else(democrat_score >= republican_score, '1', '0'))
+  mutate(dictionary_party = if_else(democrat_score2 >= republican_score2, '1', '0'))
 
 congress_wordscore$dictionary_party<-as.numeric(congress_wordscore$dictionary_party)
 
@@ -132,8 +142,8 @@ congress_wordscore$religion<-c(usa_congress_df$religion)
 congress_wordscore$length<-c(df_congress$length)
 
 #NORMALISING WORDSCORES BY LENGTH
-congress_wordscore$normalised_democrat_score<-c(congress_wordscore$democrat/congress_wordscore$length)
-congress_wordscore$normalised_republican_score<-c(congress_wordscore$republican/congress_wordscore$length)
+congress_wordscore$normalised_democrat_score<-c(congress_wordscore$democrat_score2/congress_wordscore$length)
+congress_wordscore$normalised_republican_score<-c(congress_wordscore$republican_score2/congress_wordscore$length)
 View(congress_wordscore)
 
 

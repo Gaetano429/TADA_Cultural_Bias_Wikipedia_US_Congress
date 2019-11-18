@@ -87,6 +87,7 @@ usa_congress_df <- with(usa_congress_df,  usa_congress_df[order(name),])
 congress_url <- paste0("https://en.wikipedia.org/wiki/",usa_congress_df$wikititle)
 urls<-c(congress_url)
 usa_congress_df$urls<-urls
+usa_congress_df <- with(usa_congress_df,  usa_congress_df[order(wikititle),])
 View(usa_congress_df)
 
 
@@ -112,6 +113,9 @@ df_congress <- map_df(urls, function(x){
 })
 warnings(50)
 
+
+df_congress <- with(df_congress,  df_congress[order(Politician),])
+View(df_congress)
 #ADDING PARTY
 df_congress$Party<-c(usa_congress_df$party)
 #adding PAGEID
@@ -128,3 +132,4 @@ df_congress$ethnicity<-c(usa_congress_df$ethnicity)
 df_congress$religion<-c(usa_congress_df$religion)
 
 View(df_congress)
+
