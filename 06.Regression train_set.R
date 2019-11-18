@@ -36,6 +36,7 @@ summary(model2.1)
 
 model2.2<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+Sex,data = train_set2)
 summary(model2.2)
+screenreg(model2.2)
 
 model2.3<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+length,data = train_set2)
 summary(model2.3)
@@ -45,8 +46,13 @@ summary(model2.4)
 
 model2.5<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length,data = train_set2)
 summary(model2.5)
+screenreg(model2.5)
 
 model2.6<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+Sex+length,data = train_set2)
 summary(model2.6)
 
+#R squared
+
+install.packages("texreg")
+library(texreg)
 
