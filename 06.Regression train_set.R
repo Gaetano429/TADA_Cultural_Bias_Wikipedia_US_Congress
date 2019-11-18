@@ -1,5 +1,5 @@
 ##MODEL 1
-
+# run if first dictionary was used
 #Logistical regression normalised wordscores
 
 model1<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set)
@@ -26,8 +26,8 @@ model7<-glm(party_affiliation~dictionary_party,data = train_set)
 summary(model7)
 
 #MODEL 2
-
-#Logistical regression normalised wordscores
+#run if using second dictionary
+#Logistical regression normalised wordscores 
 
 model2.1<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set2)
 summary(model2.1)
