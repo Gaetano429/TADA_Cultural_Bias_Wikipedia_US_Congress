@@ -1,6 +1,7 @@
 #GET LENGTH (OF TOKENS) THROUGH XCL
 
 library(csv)
+#do not run if file already downloaded from git
 my.summary<- summary(congress_tok)
 length_df<-data.frame(ids=length(my.summary), length=my.summary)
 write.csv(length_df, "C:/Users/gaeta/TADA_Cultural_Bias_Wikipedia_US_Congress/length.csv",row.names = FALSE)
