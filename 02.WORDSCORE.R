@@ -3,7 +3,6 @@ library(csv)
 library(quanteda)
 library(readxl)
 corpus<-corpus(df_congress, text_field = "Biography","Politician")
-corpus
 
 #CREATING DATAFRAME
 
@@ -30,12 +29,11 @@ congress_dfm<-dfm(congress_tok)
 
 
 length <- read_excel("length.xlsx")
-View(length)
 
 df_congress<-dplyr::left_join(x = df_congress,
                                y = length,
                                by = "Politician")
-View(df_congress)
+
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
 # first dictionary with 52 words
@@ -76,7 +74,7 @@ congress_wordscore<-merge(congress_democrat,congress_republican, all.x=FALSE)
 
 #ordering data alphabetically to make sure the party affiliation will be correctly assigned later on
 congress_wordscore <- with(congress_wordscore,  congress_wordscore[order(document),])
-View(congress_wordscore)
+
 #ADDING PARTY
 congress_wordscore$party_affiliation<-c(usa_congress_df$party)
 

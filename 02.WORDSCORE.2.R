@@ -30,12 +30,11 @@ congress_dfm<-dfm(congress_tok)
 
 
 length <- read_excel("length.xlsx")
-View(length)
 
 df_congress<-dplyr::left_join(x = df_congress,
                                y = length,
                                by = "Politician")
-View(df_congress)
+
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
 #second dictionary for democrats with 50 words
@@ -67,49 +66,49 @@ republican_dictionary2<-dictionary(list(republican_score2 =  c("united", "states
 congress_democrat2<-dfm_lookup(congress_dfm,democrat_dictionary2, valuetype = "fixed")
 congress_republican2<-dfm_lookup(congress_dfm,republican_dictionary2,valuetype = "fixed")
 
-congress_wordscore<-merge(congress_democrat2,congress_republican2, all.x=FALSE)
+congress_wordscore2<-merge(congress_democrat2,congress_republican2, all.x=FALSE)
 
 
 #ordering data alphabetically to make sure the party affiliation will be correctly assigned later on
-congress_wordscore <- with(congress_wordscore,  congress_wordscore[order(document),])
+congress_wordscore2 <- with(congress_wordscore2,  congress_wordscore2[order(document),])
 
 #ADDING PARTY
-congress_wordscore$party_affiliation<-c(usa_congress_df$party)
+congress_wordscore2$party_affiliation<-c(usa_congress_df$party)
 
-party_affiliation<-dplyr::pull(congress_wordscore,var = "party_affiliation")
+party_affiliation<-dplyr::pull(congress_wordscore2,var = "party_affiliation")
 party_affiliation<-as.numeric(party_affiliation == "D")
-congress_wordscore$party_affiliation<-c(party_affiliation)
+congress_wordscore2$party_affiliation<-c(party_affiliation)
 
 #ADDING DICTIONARY PARTY
 #dictionary party - labelling of party depending on wordscore majority
-congress_wordscore<- congress_wordscore %>%
+congress_wordscore2<- congress_wordscore2 %>%
   mutate(dictionary_party = if_else(democrat_score2 >= republican_score2, '1', '0'))
 
-congress_wordscore$dictionary_party<-as.numeric(congress_wordscore$dictionary_party)
+congress_wordscore2$dictionary_party<-as.numeric(congress_wordscore2$dictionary_party)
 
 #ADDING PAGEID
-congress_wordscore$pageID<-c(usa_congress_df$pageid)
+congress_wordscore2$pageID<-c(usa_congress_df$pageid)
 
 #ADDING SEX
-congress_wordscore$Sex<-c(usa_congress_df$sex)
+congress_wordscore2$Sex<-c(usa_congress_df$sex)
 
 #ADDING TOTAL EDITORS
-congress_wordscore$total_editors<-c(usa_congress_df$total_editors)
+congress_wordscore2$total_editors<-c(usa_congress_df$total_editors)
 
 #ADDING TOTAL SIZE
-congress_wordscore$total_size<-c(usa_congress_df$total_size)
+congress_wordscore2$total_size<-c(usa_congress_df$total_size)
 
 #ADDING ETHNICITY
-congress_wordscore$ethnicity<-c(usa_congress_df$ethnicity)
+congress_wordscore2$ethnicity<-c(usa_congress_df$ethnicity)
 
 #ADDING RELIGION
-congress_wordscore$religion<-c(usa_congress_df$religion)
+congress_wordscore2$religion<-c(usa_congress_df$religion)
 
 #ADDING LENGTH
-congress_wordscore$length<-c(df_congress$length)
+congress_wordscore2$length<-c(df_congress$length)
 
 #NORMALISING WORDSCORES BY LENGTH
-congress_wordscore$normalised_democrat_score<-c(congress_wordscore$democrat_score2/congress_wordscore$length)
-congress_wordscore$normalised_republican_score<-c(congress_wordscore$republican_score2/congress_wordscore$length)
-View(congress_wordscore)
+congress_wordscore2$normalised_democrat_score<-c(congress_wordscore2$democrat_score2/congress_wordscore2$length)
+congress_wordscore2$normalised_republican_score<-c(congress_wordscore2$republican_score2/congress_wordscore2$length)
+View(congress_wordscore2)
 
