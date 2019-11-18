@@ -29,61 +29,21 @@ summary(model7)
 
 #Logistical regression normalised wordscores
 
-model2.1<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set)
-summary(model1)
+model2.1<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set2)
+summary(model2.1)
 
 #logistical regression control variables
 
-model2.2<-glm(party_affiliation~normalised_democrat_score2+normalised_republican_score2+Sex,data = train_set)
-summary(model2)
+model2.2<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+Sex,data = train_set2)
+summary(model2.2)
 
-model2.3<-glm(party_affiliation~normalised_democrat_score2+normalised_republican_score2+length,data = train_set)
-summary(model3)
+model2.3<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+length,data = train_set2)
+summary(model2.3)
 
-model2.4<-glm(party_affiliation~normalised_democrat_score2+normalised_republican_score2+total_editors+total_size,data = train_set)
-summary(model4)
+model2.4<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size,data = train_set2)
+summary(model2.4)
 
-model2.5<-glm(party_affiliation~normalised_democrat_score2+normalised_republican_score2+total_editors+total_size+Sex+length,data = train_set)
-summary(model5)
+model2.5<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length,data = train_set2)
+summary(model2.5)
 
-plot(model1)
 
-fit = glm(party_affiliation~predicted_party,data = train_wordscore, family=binomial)
-newdat <- data.frame(predicted_party=seq(min(train_wordscore$predicted_party), max(train_wordscore$predicted_party),len=100))
-newdat$party_affiliation = predict(fit, newdata=newdat, type="response")
-plot(party_affiliation~predicted_party,data = train_wordscore, col="red4")
-lines(party_affiliation~predicted_party, newdat, col="green4", lwd=2)
-
-#Logistical regression
-
-logreg_control<-glm(party_affiliation~predicted_party+sex,data = train_wordscore)
-summary(logreg_control)
-
-contrasts(train_wordscore$sex)
-
-fit = glm(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set, family=binomial)
-newdat <- data.frame(predicted_party=seq(min(train_wordscore$predicted_party), sex=seq(min(train_wordscore$sex),max(train_wordscore$predicted_party),len=100)))
-newdat$party_affiliation = predict(fit, newdata=newdat, type="response")
-newdat2<-data.frame(sex=sez(min(train_wordscore$sex),max(train_wordscore$sex),len=100))
-newdat2$sex=predict(fit,newdata = newdat2,type="response")
-plot(party_affiliation~normalised_democrat_score+normalised_republican_score,data = train_set,data = train_wordscore, col="red4")
-lines(party_affiliation~predicted_party, newdat, col="green4", lwd=2)
-
-#Linear regression
-
-linreg<-lm(party_affiliation~predicted_party,data = train_wordscore)
-plot(linreg)
-
-(linear_joint <- glm(party_affiliation ~ predicted_party, data=train_wordscore))
-contrasts(train_wordscore$predicted_party)
-summary.lm(linear_joint)
-summary(linear_joint)$adj.r.squared
-
-(linear_joint)
-sigma(linear_joint)    # Residual standard error
-confint(linear_joint, level = 0.95)
-
-#Logistical regression
-
-congress_wordscore <- attrition %>% mutate_if(is.ordered, factor, ordered = FALSE)
-View(congress_wordscore)
