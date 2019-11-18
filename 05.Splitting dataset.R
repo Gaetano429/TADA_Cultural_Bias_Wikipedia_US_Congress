@@ -17,7 +17,7 @@ write_csv(test_set,"/Users/ulyssedemonio/Desktop/test_set.csv")
 
 congress_wordscore2$id <- 1:nrow(congress_wordscore2)
 train_set2 <- congress_wordscore2 %>% dplyr::sample_frac(.75)
-test_set2  <- dplyr::anti_join(congress_wordscore2, train_set, by = 'id')
+test_set2  <- dplyr::anti_join(congress_wordscore2, train_set2, by = 'id')
 
 #ORDERING DATA ALPHABETICALLY
 train_set2 <- with(train_set2,train_set2[order(document),])
