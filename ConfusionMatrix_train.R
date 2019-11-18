@@ -16,6 +16,6 @@ print(confusion_matrix)
 
 table_confusion2 = table(train_set2$party_affiliation, train_set2$dictionary_party)
 
-confusion_matrix2 = confusionMatrix(table_confusion, mode="everything")
+confusion_matrix2 = confusionMatrix(table_confusion2, mode="everything")
 
 confusion_matrix2
