@@ -38,6 +38,7 @@ df_congress<-dplyr::left_join(x = df_congress,
 View(df_congress)
 #CREATING DICTIONARY FROM GOGGIN READING
 library(quanteda)
+# first dictionary with 52 words
 democrat_dictionary<-dictionary(list(democrat_score = c("government", "psychology", "cornell", "michigan", "american", 
                                                   "georgetown", "yale", "bucknell", "missouri", "mpa", "practice", 
                                                   "private", "center", "community", "health", "development", "adjunct", 
@@ -47,7 +48,7 @@ democrat_dictionary<-dictionary(list(democrat_score = c("government", "psycholog
                                                   "brethren","christianity","chair","church",
                                                   "commerce","coalition","education","organization",
                                                   "law","executive","Trustees","institute","union","alumni","development","women" )))
-# first dictionary with 52 words
+#first rep dicionary with 53 words
 republican_dictionary<-dictionary(list(republican_score =  c("united","academy","illinois","high",
                                                        "technology","pennsylvania","virginia",
                                                        "finance","georgia","vice","office",
@@ -63,44 +64,14 @@ republican_dictionary<-dictionary(list(republican_score =  c("united","academy",
                                                        "rifle","rotary","scouts",
                                                        "young","christian","boy","veterans",
                                                        "baptist","coach","life")))
-#first rep dicionary with 53 words
-
-#second dictionary for democrats with 50 words
-democrat_dictionary2<-dictionary(list(democrat_score2 = c("university","attorney","college","school","director",
-                                                          "state","law","science","professor","department",
-                                                          "assistant","teacher","international","county",
-                                                          "office","harvard","education","phd","staff","private",
-                                                          "public","master","psychology","mpa","yale","georgetown",
-                                                          "community","center","average","health","senior","board",
-                                                          "association","present","women","bar","community",
-                                                          "volunteer","alumni","development","institute",
-                                                          "new","catholic","roman","jewish","muslim",
-                                                          "advisory","city","adjunct")))
-
-#second dictionary for republicans with 50 words
-republican_dictionary2<-dictionary(list(republican_score2 =  c("united", "states","present","president",
-                                                               "owner","company","army","manager","business",
-                                                               "officer","incorporated","air","force","vice",
-                                                               "chief","served","small","technology","liability",
-                                                               "limited","medical","virginia","mba","author",
-                                                               "san","finance","christian","baptist","presbyterian",
-                                                               "protestant","jesus","follower","member","former",
-                                                               "church","rifle","rotary","boy","veterans","chamber",
-                                                               "commerce","foundation","coach","georgia","north",
-                                                               "security","great","life")))
 
 #APPLICATION OF DICTIONARIES 
 
 congress_democrat<-dfm_lookup(congress_dfm,democrat_dictionary, valuetype = "fixed")
 congress_republican<-dfm_lookup(congress_dfm,republican_dictionary,valuetype = "fixed")
-#OR
-congress_democrat2<-dfm_lookup(congress_dfm,democrat_dictionary2, valuetype = "fixed")
-congress_republican2<-dfm_lookup(congress_dfm,republican_dictionary2,valuetype = "fixed")
 
 
 congress_wordscore<-merge(congress_democrat,congress_republican, all.x=FALSE)
-#OR
-congress_wordscore<-merge(congress_democrat2,congress_republican2, all.x=FALSE)
 
 
 #ordering data alphabetically to make sure the party affiliation will be correctly assigned later on
@@ -116,7 +87,7 @@ congress_wordscore$party_affiliation<-c(party_affiliation)
 #ADDING DICTIONARY PARTY
 #dictionary party - labelling of party depending on wordscore majority
 congress_wordscore<- congress_wordscore %>%
-  mutate(dictionary_party = if_else(democrat_score2 >= republican_score2, '1', '0'))
+  mutate(dictionary_party = if_else(democrat_score >= republican_score, '1', '0'))
 
 congress_wordscore$dictionary_party<-as.numeric(congress_wordscore$dictionary_party)
 
@@ -142,8 +113,8 @@ congress_wordscore$religion<-c(usa_congress_df$religion)
 congress_wordscore$length<-c(df_congress$length)
 
 #NORMALISING WORDSCORES BY LENGTH
-congress_wordscore$normalised_democrat_score<-c(congress_wordscore$democrat_score2/congress_wordscore$length)
-congress_wordscore$normalised_republican_score<-c(congress_wordscore$republican_score2/congress_wordscore$length)
+congress_wordscore$normalised_democrat_score<-c(congress_wordscore$democrat_score/congress_wordscore$length)
+congress_wordscore$normalised_republican_score<-c(congress_wordscore$republican_score/congress_wordscore$length)
 View(congress_wordscore)
 
 
