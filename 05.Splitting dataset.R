@@ -1,4 +1,4 @@
-#MODEL 1
+#MODEL 1 (use only if running dictionary 1)
 #DIVIDING DATA IN TRAINING AND TEST SET
 
 congress_wordscore$id <- 1:nrow(congress_wordscore)
@@ -12,7 +12,7 @@ test_set <- with(test_set,test_set[order(document),])
 write_csv(train_set,"/Users/ulyssedemonio/Desktop/train_set.csv")
 write_csv(test_set,"/Users/ulyssedemonio/Desktop/test_set.csv")
 
-#MODEL 2
+#MODEL 2 (use only if running dictionary 2)
 #DIVIDING DATA IN TRAINING AND TEST SET
 
 congress_wordscore2$id <- 1:nrow(congress_wordscore2)
