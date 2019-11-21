@@ -1,7 +1,8 @@
 #Regression
 
-model<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+Sex+length,data = test_set2)
-summary(model)
+model_test<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score+total_editors+total_size+Sex+length,data = test_set2)
+summary(model_test)
+screenreg(model_test)
 
 model_test<-glm(party_affiliation~normalised_democrat_score+normalised_republican_score,data = test_set2, family = "binomial")
 summary(model_test)
