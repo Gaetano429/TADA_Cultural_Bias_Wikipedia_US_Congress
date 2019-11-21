@@ -1,0 +1,31 @@
+#some graphs..
+
+
+library(ggplot2)
+ggplot(data=congress_wordscore2, aes(x=congress_wordscore2$democrat_score2, y=congress_wordscore2$republican_score2)) +
+  geom_point(aes(color=party_affiliation), alpha=1, shape=4, stroke=2) +
+  xlab("Democrat score") +
+  ylab("Republic score")
+
+
+#Simple Scatterplot
+
+
+
+plot(congress_wordscore2$length,congress_wordscore2$democrat_score2)
+lines(lowess(congress_wordscore2$length,congress_wordscore2$democrat_score2), col="red") 
+
+plot(congress_wordscore2$length,congress_wordscore2$republican_score2)
+lines(lowess(congress_wordscore2$length,congress_wordscore2$republican_score2), col="red") 
+
+plot(congress_wordscore2$total_editors, congress_wordscore2$democrat_score2, main="Scatterplot editors_dem_score",
+     xlab="editors", ylab="dem score")
+abline(lm(congress_wordscore2$total_editors~congress_wordscore2$democrat_score2), col="red") 
+lines(lowess(congress_wordscore2$total_editors,congress_wordscore2$democrat_score2), col="blue") 
+
+
+plot(congress_wordscore2$total_editors, congress_wordscore2$republican_score2, main="Scatterplot editors rep score",
+     xlab="editors", ylab="rep score")
+abline(lm(congress_wordscore2$total_editors~congress_wordscore2$republican_score2), col="red") 
+lines(lowess(congress_wordscore2$total_editors,congress_wordscore2$republican_score2), col="blue") 
+
