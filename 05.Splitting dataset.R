@@ -8,7 +8,7 @@ test_set  <- dplyr::anti_join(congress_wordscore, train_set, by = 'id')
 #ORDERING DATA ALPHABETICALLY
 train_set <- with(train_set,train_set[order(document),])
 test_set <- with(test_set,test_set[order(document),])
-
+#do not run
 write_csv(train_set,"/Users/ulyssedemonio/Desktop/train_set.csv")
 write_csv(test_set,"/Users/ulyssedemonio/Desktop/test_set.csv")
 

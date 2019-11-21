@@ -55,6 +55,10 @@ congress_wordscore2$pageID<-c(usa_congress_df$pageid)
 
 #ADDING SEX
 congress_wordscore2$Sex<-c(usa_congress_df$sex)
+#not finished code
+congress_wordscore2[congress_wordscore2$Sex == 0,]$sex <- "F"
+congress_wordscore2[congress_wordscore2$Sex == 1,]$sex <- "M"
+congress_wordscore2$Sex <- as.factor(congress_wordscore2$Sex)
 
 #ADDING TOTAL EDITORS
 congress_wordscore2$total_editors<-c(usa_congress_df$total_editors)
@@ -75,4 +79,12 @@ congress_wordscore2$length<-c(df_congress$length)
 congress_wordscore2$normalised_democrat_score<-c(congress_wordscore2$democrat_score2/congress_wordscore2$length)
 congress_wordscore2$normalised_republican_score<-c(congress_wordscore2$republican_score2/congress_wordscore2$length)
 View(congress_wordscore2)
+
+#removing NAs
+nrow(congress_wordscore2[is.na(congress_wordscore2$total_editors),])
+congress_wordscore2[is.na(congress_wordscore2$total_editors),]
+
+nrow(congress_wordscore2)
+congress_wordscore2 <- congress_wordscore2[!(is.na(congress_wordscore2$Sex)),]
+nrow(congress_wordscore2)
 
