@@ -3,8 +3,25 @@
 
 library(ggplot2)
 ggplot(data=congress_wordscore2, aes(x=congress_wordscore2$democrat_score2, y=congress_wordscore2$republican_score2)) +
-  geom_point(aes(color=party_affiliation), alpha=1, shape=4, stroke=2) +
-  xlab("Democrat score") +  ylab("Republican score") 
+  geom_point(size=1.8) + geom_point(aes(color=party_affiliation), alpha=1, shape=18, stroke=1) + 
+  labs(title="Dictionary Scores, 116th US Congress biographies",
+       subtitle="light blue crosses are democrats, dark blue crosses are republicans",
+       x="Democrat dictionary score", 
+       y="Republican dictionary score", 
+       caption="Dictionaries from Goggin (2016)") +
+  scale_color_gradient(low="#0015bcff", high="#b41e1eff") +
+  theme_minimal()
+
+
+ggplot(data=predicted.data, aes(x=rank, y=probability.of.party_affiliation)) +
+  geom_point(aes(color=party_affiliation), alpha=1, shape=18, stroke=3) +
+  labs(title="   Multivariate Logistic Regression",
+       subtitle="wtf",
+       x="Democrat wordscore",
+       y="Predicted probability of being a Democrat",
+       caption="Dictionaries from Goggin (2016)") +
+  scale_color_gradient(low="#0015bcff", high="#b41e1eff") +
+  theme_minimal()
 
 
 #Simple Scatterplot
