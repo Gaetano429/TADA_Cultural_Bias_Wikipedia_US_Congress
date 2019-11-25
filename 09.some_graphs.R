@@ -17,7 +17,7 @@ ggplot(data=congress_wordscore2, aes(x=congress_wordscore2$democrat_score2, y=co
        x="Democrat dictionary score", 
        y="Republican dictionary score", 
        caption="Dictionaries from Goggin (2016)") +
-  scale_color_gradient(low="#0015bcff", high="#b41e1eff") +
+  scale_color_gradient(low="#b41e1eff", high="#0015bcff") +
   theme_minimal()
 
 
@@ -28,7 +28,7 @@ ggplot(data=predicted.data, aes(x=rank, y=probability.of.party_affiliation)) +
        x="Democrat wordscore",
        y="Predicted probability of being a Democrat",
        caption="Dictionaries from Goggin (2016)") +
-  scale_color_gradient(low="#0015bcff", high="#b41e1eff") +
+  scale_color_gradient((low="#b41e1eff", high="#0015bcff") +
   theme_minimal()
 
 
